@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>愛式メディカルリンパ®復習クイズ</title>
+    
+    <!-- CSS読み込み -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/student.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/ai-logo.png">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <img src="assets/ai-logo.png" alt="愛式メディカルリンパ®" class="logo">
+        <h1>愛式メディカルリンパ®復習クイズ</h1>
+        <p>あなたの学習をサポートします</p>
+    </header>
+
+    <!-- メインコンテナ -->
+    <main class="container">
+        <!-- レベル選択画面 -->
+        <section class="level-selection">
+            <div class="card">
+                <h2>学習レベルを選択してください</h2>
+                <div class="level-buttons">
+                    <button class="level-btn beginner" data-level="初級" onclick="selectLevel('初級')">
+                        🌱 初級
+                    </button>
+                    <button class="level-btn intermediate" data-level="中級" onclick="selectLevel('中級')">
+                        🌿 中級
+                    </button>
+                    <button class="level-btn advanced" data-level="上級" onclick="selectLevel('上級')">
+                        🌳 上級
+                    </button>
+                </div>
+                <p class="text-center text-light">各レベル10問のクイズに挑戦しましょう</p>
+            </div>
+        </section>
+
+        <!-- クイズ画面 -->
+        <section class="quiz-container" style="display: none;">
+            <!-- クイズヘッダー -->
+            <div class="quiz-header">
+                <div class="quiz-progress">
+                    <span class="question-number">問題 1</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span class="total-questions">/ 10</span>
+                </div>
+            </div>
+
+            <!-- 問題カード -->
+            <div class="question-card">
+                <div class="question-meta">
+                    <span class="lecture-code">PG01-1</span>
+                    <span class="difficulty-badge difficulty-初級">初級</span>
+                </div>
+                
+                <h3 class="question-title">レクチャータイトル</h3>
+                <div class="question-text">問題文がここに表示されます</div>
+                
+                <div class="options-container">
+                    <!-- 選択肢が動的に生成されます -->
+                </div>
+
+                <!-- 解説（選択後に表示） -->
+                <div class="explanation" style="display: none;">
+                    <h4>解説</h4>
+                    <p>解説文がここに表示されます</p>
+                </div>
+
+                <!-- 関連動画リンク -->
+                <a href="#" class="video-link" style="display: none;" target="_blank">
+                    📹 関連動画で復習する
+                </a>
+
+                <!-- 次の問題ボタン -->
+                <div class="text-center mt-lg">
+                    <button class="btn btn-primary" onclick="nextQuestion()" style="display: none;">
+                        次の問題へ
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 結果画面 -->
+        <section class="results-container" style="display: none;">
+            <!-- スコア表示 -->
+            <div class="score-display">
+                <div class="score-number">80点</div>
+                <div class="score-text">8問正解 / 10問中</div>
+            </div>
+
+            <!-- 結果統計 -->
+            <div class="results-summary">
+                <div class="summary-card">
+                    <div class="summary-number correct-count">8</div>
+                    <div class="summary-label">正解数</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-number total-count">10</div>
+                    <div class="summary-label">総問題数</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-number time-spent">3分45秒</div>
+                    <div class="summary-label">所要時間</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-number accuracy-rate">80%</div>
+                    <div class="summary-label">正答率</div>
+                </div>
+            </div>
+
+            <!-- 間違えた問題 -->
+            <div class="wrong-questions">
+                <h3>📚 復習が必要な問題</h3>
+                <div class="wrong-questions-list">
+                    <!-- 間違えた問題が動的に生成されます -->
+                </div>
+            </div>
+
+            <!-- アクションボタン -->
+            <div class="text-center">
+                <button class="btn btn-primary" onclick="restartQuiz()">
+                    もう一度挑戦する
+                </button>
+                <button class="btn btn-secondary ml-md" onclick="selectLevel('中級')">
+                    別のレベルに挑戦
+                </button>
+            </div>
+        </section>
+
+        <!-- ローディング画面 -->
+        <section class="loading" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>問題データを読み込み中...</p>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="text-center p-lg">
+        <p class="text-light">© 2025 愛式メディカルリンパ®. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript読み込み -->
+    <script src="js/common.js"></script>
+    <script src="js/student.js"></script>
+</body>
+</html>
+

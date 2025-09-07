@@ -1,0 +1,386 @@
+/* 愛式メディカルリンパ®復習クイズシステム - 生徒用スタイル */
+
+/* レベル選択画面 */
+.level-selection {
+    text-align: center;
+    padding: var(--spacing-xxl) 0;
+}
+
+.level-selection h2 {
+    color: var(--primary-color);
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-xl);
+    font-weight: 400;
+}
+
+.level-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-xl);
+}
+
+.level-btn {
+    padding: var(--spacing-lg) var(--spacing-xl);
+    font-size: var(--font-size-large);
+    font-weight: 500;
+    border-radius: var(--border-radius-md);
+    border: 2px solid;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    min-width: 120px;
+    text-transform: none;
+}
+
+.level-btn.beginner {
+    background: var(--beginner-bg);
+    color: var(--beginner-color);
+    border-color: var(--beginner-border);
+}
+
+.level-btn.beginner:hover {
+    background: var(--beginner-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+}
+
+.level-btn.intermediate {
+    background: var(--intermediate-bg);
+    color: var(--intermediate-color);
+    border-color: var(--intermediate-border);
+}
+
+.level-btn.intermediate:hover {
+    background: var(--intermediate-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(245, 124, 0, 0.3);
+}
+
+.level-btn.advanced {
+    background: var(--advanced-bg);
+    color: var(--advanced-color);
+    border-color: var(--advanced-border);
+}
+
+.level-btn.advanced:hover {
+    background: var(--advanced-color);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(194, 24, 91, 0.3);
+}
+
+/* クイズ画面 */
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.quiz-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    border-radius: var(--border-radius-lg);
+}
+
+.quiz-progress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-md);
+}
+
+.progress-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: var(--border-radius-sm);
+    margin: 0 var(--spacing-md);
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: white;
+    border-radius: var(--border-radius-sm);
+    transition: width var(--transition-normal);
+}
+
+.question-card {
+    background: var(--background-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px var(--shadow-light);
+}
+
+.question-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.lecture-code {
+    background: var(--primary-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: var(--border-radius-lg);
+    font-size: var(--font-size-small);
+    font-weight: 500;
+}
+
+.question-text {
+    font-size: var(--font-size-large);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-xl);
+    color: var(--text-color);
+}
+
+.options-container {
+    margin-bottom: var(--spacing-xl);
+}
+
+.option {
+    background: var(--background-color);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin-bottom: var(--spacing-sm);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-size: var(--font-size-normal);
+    line-height: 1.5;
+}
+
+.option:hover {
+    border-color: var(--primary-color);
+    background: rgba(184, 134, 11, 0.05);
+}
+
+.option.selected {
+    border-color: var(--primary-color);
+    background: rgba(184, 134, 11, 0.1);
+    font-weight: 500;
+}
+
+.option.correct {
+    border-color: var(--beginner-color);
+    background: var(--beginner-bg);
+    color: var(--beginner-color);
+}
+
+.option.incorrect {
+    border-color: var(--advanced-color);
+    background: var(--advanced-bg);
+    color: var(--advanced-color);
+}
+
+.option.disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* 解説表示 */
+.explanation {
+    background: #f8f9fa;
+    border-left: 4px solid var(--primary-color);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-sm);
+    margin: var(--spacing-lg) 0;
+    font-size: var(--font-size-normal);
+    line-height: 1.6;
+}
+
+.explanation h4 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 500;
+}
+
+/* 関連動画リンク */
+.video-link {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-xl);
+    text-decoration: none;
+    font-size: var(--font-size-small);
+    font-weight: 500;
+    transition: all var(--transition-normal);
+    margin-top: var(--spacing-md);
+}
+
+.video-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(184, 134, 11, 0.3);
+}
+
+/* 結果画面 */
+.results-container {
+    text-align: center;
+    padding: var(--spacing-xl) 0;
+}
+
+.score-display {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: white;
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.score-number {
+    font-size: 3rem;
+    font-weight: 300;
+    margin-bottom: var(--spacing-sm);
+}
+
+.score-text {
+    font-size: var(--font-size-large);
+    opacity: 0.9;
+}
+
+.results-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+.summary-card {
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-lg);
+    text-align: center;
+}
+
+.summary-number {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+}
+
+.summary-label {
+    color: var(--text-light);
+    font-size: var(--font-size-small);
+}
+
+.wrong-questions {
+    background: var(--background-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+
+.wrong-questions h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
+.wrong-question-item {
+    background: #fafafa;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.wrong-question-text {
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+}
+
+.wrong-question-answer {
+    font-size: var(--font-size-small);
+    color: var(--text-light);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* ローディング画面 */
+.loading {
+    text-align: center;
+    padding: var(--spacing-xxl) 0;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border-color);
+    border-top: 4px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto var(--spacing-lg);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .level-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .level-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .quiz-progress {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .progress-bar {
+        margin: 0;
+        width: 100%;
+    }
+    
+    .question-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .results-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .score-number {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .question-card {
+        padding: var(--spacing-lg);
+    }
+    
+    .quiz-header {
+        padding: var(--spacing-md);
+    }
+    
+    .score-display {
+        padding: var(--spacing-lg);
+    }
+    
+    .score-number {
+        font-size: 2rem;
+    }
+}
+

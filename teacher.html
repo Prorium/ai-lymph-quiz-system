@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>愛式メディカルリンパ®復習クイズ - 講師用管理画面</title>
+    
+    <!-- CSS読み込み -->
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/teacher.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/ai-logo.png">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header class="header">
+        <img src="assets/ai-logo.png" alt="愛式メディカルリンパ®" class="logo">
+        <h1>愛式メディカルリンパ®復習クイズ</h1>
+        <p>講師用管理画面</p>
+    </header>
+
+    <!-- 保存状況表示 -->
+    <div id="saveStatus" class="save-status"></div>
+
+    <!-- メインコンテナ -->
+    <main class="container">
+        <!-- 統計情報 -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalQuestions">0</div>
+                <div class="stat-label">総問題数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="approvedCount">0</div>
+                <div class="stat-label">承認済み</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="unapprovedCount">0</div>
+                <div class="stat-label">未承認</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="beginnerCount">0</div>
+                <div class="stat-label">初級問題</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="intermediateCount">0</div>
+                <div class="stat-label">中級問題</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="advancedCount">0</div>
+                <div class="stat-label">上級問題</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="filteredCount">0</div>
+                <div class="stat-label">表示中</div>
+            </div>
+        </section>
+
+        <!-- コントロールパネル -->
+        <section class="controls">
+            <h3>🔍 問題検索・フィルター</h3>
+            
+            <div class="filter-group">
+                <label for="difficultyFilter">難易度:</label>
+                <select id="difficultyFilter">
+                    <option value="">すべて</option>
+                    <option value="初級">初級</option>
+                    <option value="中級">中級</option>
+                    <option value="上級">上級</option>
+                </select>
+
+                <label for="approvalFilter">承認状態:</label>
+                <select id="approvalFilter">
+                    <option value="">すべて</option>
+                    <option value="approved">承認済み</option>
+                    <option value="unapproved">未承認</option>
+                </select>
+
+                <label for="programFilter">プログラム:</label>
+                <select id="programFilter">
+                    <option value="">すべて</option>
+                    <!-- プログラム選択肢は動的に生成 -->
+                </select>
+
+                <label for="searchInput">検索:</label>
+                <input type="text" id="searchInput" placeholder="問題文、タイトル、解説で検索...">
+            </div>
+
+            <div class="filter-group">
+                <label for="itemsPerPage">表示件数:</label>
+                <select id="itemsPerPage">
+                    <option value="10">10件</option>
+                    <option value="20" selected>20件</option>
+                    <option value="50">50件</option>
+                    <option value="100">100件</option>
+                </select>
+
+                <button class="btn btn-secondary btn-small" onclick="resetFilters()">
+                    フィルターをリセット
+                </button>
+
+                <button class="btn btn-primary btn-small" onclick="saveAllChanges()">
+                    💾 変更を保存
+                </button>
+            </div>
+
+            <div class="filter-group">
+                <h4>一括操作</h4>
+                <button class="btn btn-success btn-small" onclick="bulkApprove()">
+                    ✅ 表示中の問題を一括承認
+                </button>
+                <button class="btn btn-warning btn-small" onclick="bulkUnapprove()">
+                    ❌ 表示中の問題を一括未承認
+                </button>
+                <button class="btn btn-success btn-small" onclick="approveAll()">
+                    ✅ 全問題を一括承認
+                </button>
+                <button class="btn btn-warning btn-small" onclick="unapproveAll()">
+                    ❌ 全問題を一括未承認
+                </button>
+            </div>
+        </section>
+
+        <!-- 問題一覧 -->
+        <section class="questions-container">
+            <div class="questions-header">
+                <h3>📚 問題一覧</h3>
+                <div>
+                    <span id="currentRange">1-20</span> / <span id="filteredCount">0</span>問
+                </div>
+            </div>
+
+            <!-- 問題リスト -->
+            <div id="questionsList">
+                <!-- 問題が動的に生成されます -->
+            </div>
+
+            <!-- ページネーション -->
+            <div id="pagination" class="pagination">
+                <!-- ページネーションが動的に生成されます -->
+            </div>
+        </section>
+    </main>
+
+    <!-- フッター -->
+    <footer class="text-center p-lg">
+        <p class="text-light">© 2025 愛式メディカルリンパ®. All rights reserved.</p>
+        <p class="text-light">講師用管理画面 - 問題の編集・管理ができます</p>
+    </footer>
+
+    <!-- JavaScript読み込み -->
+    <script src="js/common.js"></script>
+    <script src="js/teacher.js"></script>
+</body>
+</html>
+

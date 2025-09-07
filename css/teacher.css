@@ -1,0 +1,419 @@
+/* 愛式メディカルリンパ®復習クイズシステム - 講師用スタイル */
+
+/* 統計グリッド */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xxl);
+}
+
+.stat-card {
+    background: var(--background-color);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+    text-align: center;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px var(--shadow-light);
+    transition: all var(--transition-normal);
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px var(--shadow-medium);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.stat-label {
+    color: var(--text-light);
+    font-size: var(--font-size-small);
+    font-weight: 300;
+}
+
+/* コントロールパネル */
+.controls {
+    background: var(--background-color);
+    padding: var(--spacing-xl);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: var(--spacing-xl);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px var(--shadow-light);
+}
+
+.controls h3 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-lg);
+    font-weight: 400;
+}
+
+.filter-group {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.filter-group label {
+    color: var(--text-light);
+    font-weight: 500;
+    margin-right: var(--spacing-sm);
+}
+
+/* 問題コンテナ */
+.questions-container {
+    background: var(--background-color);
+    border-radius: var(--border-radius-lg);
+    padding: var(--spacing-xl);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 10px var(--shadow-light);
+}
+
+.questions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-xl);
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.questions-header h3 {
+    color: var(--primary-color);
+    font-weight: 400;
+}
+
+/* 問題アイテム */
+.question-item {
+    background: #fafafa;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    transition: all var(--transition-normal);
+}
+
+.question-item:hover {
+    box-shadow: 0 4px 15px var(--shadow-medium);
+    transform: translateY(-2px);
+}
+
+.question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.question-meta {
+    display: flex;
+    gap: var(--spacing-md);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.lecture-code {
+    background: var(--primary-color);
+    color: white;
+    padding: 4px 12px;
+    border-radius: var(--border-radius-lg);
+    font-size: var(--font-size-small);
+    font-weight: 500;
+}
+
+.question-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.question-title {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-large);
+}
+
+.question-text {
+    color: var(--text-color);
+    font-size: var(--font-size-large);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.6;
+    padding: var(--spacing-md);
+    background: var(--background-color);
+    border-radius: var(--border-radius-sm);
+    border: 1px solid #e0e0e0;
+}
+
+/* 選択肢リスト */
+.options-list {
+    margin-bottom: var(--spacing-md);
+}
+
+.option-item {
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: var(--spacing-xs) 0;
+    border-radius: var(--border-radius-sm);
+    background: var(--background-color);
+    border: 1px solid #e0e0e0;
+    font-size: var(--font-size-normal);
+}
+
+.option-item.correct {
+    background: var(--beginner-bg);
+    border-color: var(--beginner-color);
+    color: var(--beginner-color);
+    font-weight: 500;
+}
+
+/* 解説 */
+.explanation {
+    background: #f8f9fa;
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-sm);
+    border-left: 4px solid var(--primary-color);
+    margin-bottom: var(--spacing-md);
+    font-size: var(--font-size-normal);
+    line-height: 1.6;
+}
+
+.explanation strong {
+    color: var(--primary-color);
+}
+
+/* 編集ボタン */
+.btn-edit {
+    background: #17a2b8;
+    color: white;
+    border: none;
+}
+
+.btn-edit:hover {
+    background: #138496;
+    transform: translateY(-1px);
+}
+
+.btn-approve {
+    background: #28a745;
+    color: white;
+    border: none;
+}
+
+.btn-approve:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+.btn-reject {
+    background: #dc3545;
+    color: white;
+    border: none;
+}
+
+.btn-reject:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+}
+
+/* ページネーション */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+}
+
+.pagination button {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid var(--border-color);
+    background: var(--background-color);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-size: var(--font-size-small);
+}
+
+.pagination button:hover:not(:disabled) {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.pagination button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination .current-page {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* 保存状況表示 */
+.save-status {
+    position: fixed;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius-full);
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    font-size: var(--font-size-small);
+}
+
+.save-status.success {
+    background: #28a745;
+    opacity: 1;
+}
+
+.save-status.error {
+    background: #dc3545;
+    opacity: 1;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: var(--spacing-md);
+    }
+    
+    .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-group label {
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .question-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .question-meta {
+        justify-content: flex-start;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .question-actions {
+        justify-content: flex-start;
+    }
+    
+    .questions-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-sm);
+    }
+    
+    .pagination {
+        flex-wrap: wrap;
+        gap: var(--spacing-xs);
+    }
+    
+    .save-status {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-bottom: var(--spacing-lg);
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-card {
+        padding: var(--spacing-lg);
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .controls {
+        padding: var(--spacing-lg);
+    }
+    
+    .questions-container {
+        padding: var(--spacing-lg);
+    }
+    
+    .question-item {
+        padding: var(--spacing-lg);
+    }
+    
+    .question-actions {
+        flex-direction: column;
+    }
+    
+    .btn-small {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+/* 承認バッジのスタイル */
+.approval-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+.approval-badge.approved {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.approval-badge.unapproved {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* 一括操作ボタンのスタイル */
+.filter-group h4 {
+    margin: 16px 0 8px 0;
+    color: #333;
+    font-size: 1em;
+}
+
+.btn.btn-success {
+    background-color: #28a745;
+    color: white;
+    border: 1px solid #28a745;
+}
+
+.btn.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn.btn-warning {
+    background-color: #ffc107;
+    color: #212529;
+    border: 1px solid #ffc107;
+}
+
+.btn.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
