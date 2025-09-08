@@ -399,18 +399,31 @@ eventManager.on('domReady', () => {
     quizApp = new QuizApp();
 });
 
-// グローバル関数（HTML内のonclickイベント用）
-function selectLevel(level) {
+// グローバル関数（HTMLのonclick属性から呼び出される）
+function nextQuestion() {
+    console.debug('[nextQuestion] グローバル関数が呼び出されました');
     if (quizApp) {
-        quizApp.startQuiz(level);
+        quizApp.nextQuestion();
+    } else {
+        console.error('[nextQuestion] quizAppが初期化されていません');
     }
 }
 
-function nextQuestion() {
-    eventManager.emit('nextQuestion');
+function selectLevel(level) {
+    console.debug('[selectLevel] グローバル関数が呼び出されました', {level});
+    if (quizApp) {
+        quizApp.selectLevel(level);
+    } else {
+        console.error('[selectLevel] quizAppが初期化されていません');
+    }
 }
 
 function restartQuiz() {
-    eventManager.emit('restartQuiz');
+    console.debug('[restartQuiz] グローバル関数が呼び出されました');
+    if (quizApp) {
+        quizApp.restartQuiz();
+    } else {
+        console.error('[restartQuiz] quizAppが初期化されていません');
+    }
 }
 
