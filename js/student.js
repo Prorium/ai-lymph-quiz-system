@@ -179,6 +179,8 @@ class QuizApp {
      * @param {number} optionIndex - 選択された選択肢のインデックス
      */
     handleOptionSelect(optionIndex) {
+        console.debug('[handleOptionSelect] 開始', {optionIndex, currentQuestionIndex: this.currentQuestionIndex});
+        
         const question = this.currentQuestions[this.currentQuestionIndex];
         const selectedOption = question.options[optionIndex];
         const isCorrect = selectedOption === question.correct_answer;
@@ -191,13 +193,24 @@ class QuizApp {
             timeSpent: new Date() - this.startTime
         });
 
+        console.debug('[handleOptionSelect] 回答記録', {selectedOption, isCorrect});
+
         // 選択肢の状態を更新
         this.updateOptionsDisplay(optionIndex, isCorrect, question.correct_answer);
 
         // 解説と関連動画を表示
         this.showExplanation(question);
 
-        // 次の問題ボタンを表示
+        // 次の問題ボタンを必ず表示（正誤に関係なく）
+        const nextButton = document.querySelector('.next-btn');
+        if (nextButton) {
+            nextButton.style.display = 'block';
+            nextButton.disabled = false;
+            console.debug('[handleOptionSelect] 次の問題ボタンを表示');
+        } else {
+            console.error('[handleOptionSelect] 次の問題ボタンが見つかりません');
+        }
+        
         Utils.toggleElement('.next-btn', true);
     }
 
@@ -252,8 +265,24 @@ class QuizApp {
      * 次の問題に進む
      */
     nextQuestion() {
+        console.debug('[nextQuestion] 開始', {currentQuestionIndex: this.currentQuestionIndex, totalQuestions: this.currentQuestions.length});
+        
+        // 連打防止
+        const nextButton = document.querySelector('.next-btn');
+        if (nextButton) {
+            nextButton.disabled = true;
+        }
+        
         this.currentQuestionIndex++;
-        this.displayCurrentQuestion();
+        
+        // 最後の問題かチェック
+        if (this.currentQuestionIndex >= this.currentQuestions.length) {
+            console.debug('[nextQuestion] 全問題完了、結果表示へ');
+            this.showResults();
+        } else {
+            console.debug('[nextQuestion] 次の問題を表示', {nextIndex: this.currentQuestionIndex});
+            this.displayCurrentQuestion();
+        }
     }
 
     /**

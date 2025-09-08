@@ -660,51 +660,238 @@ function toggleApproval(index) {
     }
 }
 
-function bulkApprove() {
-    if (teacherApp && confirm('表示中の問題をすべて承認しますか？')) {
-        teacherApp.filteredQuestions.forEach(question => {
+// 一括承認・未承認機能（修正版）
+async function bulkApprove() {
+    console.debug('[bulkApprove] 開始');
+    
+    if (!teacherApp) {
+        console.error('[bulkApprove] teacherAppが未初期化');
+        return;
+    }
+    
+    const targetQuestions = teacherApp.filteredQuestions;
+    const count = targetQuestions.length;
+    
+    if (count === 0) {
+        teacherApp.showSaveStatus('承認する問題がありません', 'warning');
+        return;
+    }
+    
+    if (!confirm(`表示中の${count}問をすべて承認しますか？`)) {
+        return;
+    }
+    
+    // ボタンを無効化（二重クリック防止）
+    const button = document.querySelector('button[onclick="bulkApprove()"]');
+    if (button) {
+        button.disabled = true;
+        button.textContent = '処理中...';
+    }
+    
+    try {
+        console.debug('[bulkApprove]', {count, ids: targetQuestions.map(q => q.id)});
+        
+        // 楽観的更新
+        const originalStates = targetQuestions.map(q => ({id: q.id, approved: q.approved}));
+        
+        targetQuestions.forEach(question => {
             question.approved = true;
         });
+        
         teacherApp.hasChanges = true;
         teacherApp.updateStats();
         teacherApp.displayQuestions();
-        teacherApp.showSaveStatus(`${teacherApp.filteredQuestions.length}問を一括承認しました`, 'success');
+        
+        // 実際の保存処理（既存のsaveAllChanges関数を利用）
+        await teacherApp.saveAllChanges();
+        
+        teacherApp.showSaveStatus(`${count}問を一括承認しました`, 'success');
+        
+    } catch (error) {
+        console.error('[bulkApprove] エラー:', error);
+        
+        // ロールバック
+        const originalStates = targetQuestions.map(q => ({id: q.id, approved: false}));
+        originalStates.forEach(state => {
+            const question = targetQuestions.find(q => q.id === state.id);
+            if (question) question.approved = state.approved;
+        });
+        
+        teacherApp.updateStats();
+        teacherApp.displayQuestions();
+        teacherApp.showSaveStatus('一括承認に失敗しました', 'error');
+        
+    } finally {
+        // ボタンを再有効化
+        if (button) {
+            button.disabled = false;
+            button.textContent = '✅ 表示中の問題を一括承認';
+        }
     }
 }
 
-function bulkUnapprove() {
-    if (teacherApp && confirm('表示中の問題をすべて未承認にしますか？')) {
-        teacherApp.filteredQuestions.forEach(question => {
+async function bulkUnapprove() {
+    console.debug('[bulkUnapprove] 開始');
+    
+    if (!teacherApp) {
+        console.error('[bulkUnapprove] teacherAppが未初期化');
+        return;
+    }
+    
+    const targetQuestions = teacherApp.filteredQuestions;
+    const count = targetQuestions.length;
+    
+    if (count === 0) {
+        teacherApp.showSaveStatus('未承認にする問題がありません', 'warning');
+        return;
+    }
+    
+    if (!confirm(`表示中の${count}問をすべて未承認にしますか？`)) {
+        return;
+    }
+    
+    // ボタンを無効化（二重クリック防止）
+    const button = document.querySelector('button[onclick="bulkUnapprove()"]');
+    if (button) {
+        button.disabled = true;
+        button.textContent = '処理中...';
+    }
+    
+    try {
+        console.debug('[bulkUnapprove]', {count, ids: targetQuestions.map(q => q.id)});
+        
+        // 楽観的更新
+        const originalStates = targetQuestions.map(q => ({id: q.id, approved: q.approved}));
+        
+        targetQuestions.forEach(question => {
             question.approved = false;
         });
+        
         teacherApp.hasChanges = true;
         teacherApp.updateStats();
         teacherApp.displayQuestions();
-        teacherApp.showSaveStatus(`${teacherApp.filteredQuestions.length}問を一括未承認にしました`, 'warning');
+        
+        // 実際の保存処理
+        await teacherApp.saveAllChanges();
+        
+        teacherApp.showSaveStatus(`${count}問を一括未承認にしました`, 'warning');
+        
+    } catch (error) {
+        console.error('[bulkUnapprove] エラー:', error);
+        
+        // ロールバック
+        const originalStates = targetQuestions.map(q => ({id: q.id, approved: true}));
+        originalStates.forEach(state => {
+            const question = targetQuestions.find(q => q.id === state.id);
+            if (question) question.approved = state.approved;
+        });
+        
+        teacherApp.updateStats();
+        teacherApp.displayQuestions();
+        teacherApp.showSaveStatus('一括未承認に失敗しました', 'error');
+        
+    } finally {
+        // ボタンを再有効化
+        if (button) {
+            button.disabled = false;
+            button.textContent = '❌ 表示中の問題を一括未承認';
+        }
     }
 }
 
-function approveAll() {
-    if (teacherApp && confirm('全問題を承認しますか？')) {
+async function approveAll() {
+    console.debug('[approveAll] 開始');
+    
+    if (!teacherApp) {
+        console.error('[approveAll] teacherAppが未初期化');
+        return;
+    }
+    
+    const count = teacherApp.allQuestions.length;
+    
+    if (!confirm(`全${count}問を承認しますか？`)) {
+        return;
+    }
+    
+    // ボタンを無効化
+    const button = document.querySelector('button[onclick="approveAll()"]');
+    if (button) {
+        button.disabled = true;
+        button.textContent = '処理中...';
+    }
+    
+    try {
+        console.debug('[approveAll]', {count});
+        
         teacherApp.allQuestions.forEach(question => {
             question.approved = true;
         });
+        
         teacherApp.hasChanges = true;
         teacherApp.updateStats();
         teacherApp.applyFilters();
-        teacherApp.showSaveStatus(`${teacherApp.allQuestions.length}問を全承認しました`, 'success');
+        
+        await teacherApp.saveAllChanges();
+        
+        teacherApp.showSaveStatus(`${count}問を全承認しました`, 'success');
+        
+    } catch (error) {
+        console.error('[approveAll] エラー:', error);
+        teacherApp.showSaveStatus('全承認に失敗しました', 'error');
+        
+    } finally {
+        if (button) {
+            button.disabled = false;
+            button.textContent = '✅ 全問題を一括承認';
+        }
     }
 }
 
-function unapproveAll() {
-    if (teacherApp && confirm('全問題を未承認にしますか？')) {
+async function unapproveAll() {
+    console.debug('[unapproveAll] 開始');
+    
+    if (!teacherApp) {
+        console.error('[unapproveAll] teacherAppが未初期化');
+        return;
+    }
+    
+    const count = teacherApp.allQuestions.length;
+    
+    if (!confirm(`全${count}問を未承認にしますか？`)) {
+        return;
+    }
+    
+    // ボタンを無効化
+    const button = document.querySelector('button[onclick="unapproveAll()"]');
+    if (button) {
+        button.disabled = true;
+        button.textContent = '処理中...';
+    }
+    
+    try {
+        console.debug('[unapproveAll]', {count});
+        
         teacherApp.allQuestions.forEach(question => {
             question.approved = false;
         });
+        
         teacherApp.hasChanges = true;
         teacherApp.updateStats();
         teacherApp.applyFilters();
-        teacherApp.showSaveStatus(`${teacherApp.allQuestions.length}問を全未承認にしました`, 'warning');
+        
+        await teacherApp.saveAllChanges();
+        
+        teacherApp.showSaveStatus(`${count}問を全未承認にしました`, 'warning');
+        
+    } catch (error) {
+        console.error('[unapproveAll] エラー:', error);
+        teacherApp.showSaveStatus('全未承認に失敗しました', 'error');
+        
+    } finally {
+        if (button) {
+            button.disabled = false;
+            button.textContent = '❌ 全問題を一括未承認';
+        }
     }
 }
 
