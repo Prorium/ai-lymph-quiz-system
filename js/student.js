@@ -51,8 +51,22 @@ class QuizApp {
 
         // クイズ再開始
         eventManager.on('restartQuiz', () => {
-            this.showLevelSelection();
+            this.restartQuiz();
         });
+    }
+
+    /**
+     * クイズを再開始
+     */
+    restartQuiz() {
+        console.debug('[restartQuiz] クイズを再開始します');
+        this.currentQuestions = [];
+        this.currentQuestionIndex = 0;
+        this.userAnswers = [];
+        this.selectedLevel = null;
+        this.isQuizActive = false;
+        this.startTime = null;
+        this.showLevelSelection();
     }
 
     /**
@@ -253,12 +267,8 @@ class QuizApp {
         `);
         Utils.toggleElement('.explanation', true);
 
-        // 関連動画リンク表示
-        if (question.url && question.url !== 'None') {
-            videoLinkElement.href = question.url;
-            videoLinkElement.target = '_blank';
-            Utils.toggleElement('.video-link', true);
-        }
+        // 関連動画リンクは最後のまとめで表示するため、ここでは非表示
+        Utils.toggleElement('.video-link', false);
     }
 
     /**
@@ -349,15 +359,19 @@ class QuizApp {
         wrongAnswers.forEach((answer, index) => {
             const questionElement = document.createElement('div');
             questionElement.className = 'wrong-question-item';
+            
+            // 関連動画リンクの表示判定
+            const videoLinkHtml = (answer.question.url && answer.question.url !== 'None' && answer.question.url.trim() !== '') 
+                ? `<a href="${answer.question.url}" target="_blank" class="video-link">📹 関連動画で復習する</a>`
+                : '';
+            
             questionElement.innerHTML = `
                 <div class="wrong-question-text">${answer.question.question}</div>
                 <div class="wrong-question-answer">
                     <span style="color: #dc3545;">あなたの回答:</span> ${answer.selectedAnswer}<br>
                     <span style="color: #28a745;">正解:</span> ${answer.question.correct_answer}
                 </div>
-                <a href="${answer.question.url}" target="_blank" class="video-link">
-                    📹 関連動画で復習する
-                </a>
+                ${videoLinkHtml}
             `;
             container.appendChild(questionElement);
         });
