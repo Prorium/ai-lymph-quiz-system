@@ -35,14 +35,29 @@ const Utils = {
     },
 
     /**
-     * 配列からランダムに指定数の要素を選択
+     * 配列からランダムに指定数の要素を選択（より均等な分散）
      * @param {Array} array - 選択元の配列
      * @param {number} count - 選択する数
      * @returns {Array} 選択された要素の配列
      */
     getRandomItems(array, count) {
-        const shuffled = this.shuffleArray(array);
-        return shuffled.slice(0, Math.min(count, array.length));
+        if (array.length <= count) {
+            return this.shuffleArray(array);
+        }
+        
+        // より均等な分散のため、配列を複数回シャッフルして選択
+        const result = [];
+        const availableIndices = Array.from({length: array.length}, (_, i) => i);
+        
+        // Fisher-Yates シャッフルを使用してより良いランダム性を確保
+        for (let i = 0; i < count; i++) {
+            const randomIndex = Math.floor(Math.random() * availableIndices.length);
+            const selectedIndex = availableIndices.splice(randomIndex, 1)[0];
+            result.push(array[selectedIndex]);
+        }
+        
+        // 最終的にもう一度シャッフルして順序もランダムに
+        return this.shuffleArray(result);
     },
 
     /**

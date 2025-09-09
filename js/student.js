@@ -368,10 +368,16 @@ class QuizApp {
             `;
             
             correctAnswers.forEach((answer, index) => {
+                // 関連動画リンクの表示判定
+                const videoLinkHtml = (answer.question.url && answer.question.url !== 'None' && answer.question.url.trim() !== '') 
+                    ? `<a href="${answer.question.url}" target="_blank" class="video-link" style="display: inline-block; margin-top: 10px; padding: 8px 15px; background: #28a745; color: white; text-decoration: none; border-radius: 5px;">📹 関連動画で復習する</a>`
+                    : '';
+                
                 resultHtml += `
                     <div style="margin-bottom: 10px; padding: 10px; background: white; border-radius: 5px;">
                         <div style="font-weight: bold; margin-bottom: 5px;">問題${this.userAnswers.indexOf(answer) + 1}: ${answer.question.question}</div>
                         <div style="color: #28a745;">✓ 正解: ${answer.question.correct_answer}</div>
+                        ${videoLinkHtml}
                     </div>
                 `;
             });
