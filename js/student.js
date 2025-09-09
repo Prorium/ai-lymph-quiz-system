@@ -319,8 +319,8 @@ class QuizApp {
         // 統計表示
         this.displayResultStats(correctAnswers, totalQuestions, totalTime);
 
-        // 間違えた問題を表示
-        this.displayWrongQuestions();
+        // 正解・不正解問題を分けて表示
+        this.displayQuestionResults();
     }
 
     /**
@@ -341,9 +341,10 @@ class QuizApp {
     }
 
     /**
-     * 間違えた問題を表示
+     * 正解・不正解問題の結果を表示
      */
-    displayWrongQuestions() {
+    displayQuestionResults() {
+        const correctAnswers = this.userAnswers.filter(answer => answer.isCorrect);
         const wrongAnswers = this.userAnswers.filter(answer => !answer.isCorrect);
         const container = document.querySelector('.wrong-questions-list');
 
@@ -355,26 +356,59 @@ class QuizApp {
             return;
         }
 
-        container.innerHTML = '';
-        wrongAnswers.forEach((answer, index) => {
-            const questionElement = document.createElement('div');
-            questionElement.className = 'wrong-question-item';
+        // 正解した問題と間違えた問題を分けて表示
+        let resultHtml = '';
+        
+        // 正解した問題がある場合
+        if (correctAnswers.length > 0) {
+            resultHtml += `
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: #28a745;">✅ 正解した問題 (${correctAnswers.length}問)</h3>
+                    <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            `;
             
+            correctAnswers.forEach((answer, index) => {
+                resultHtml += `
+                    <div style="margin-bottom: 10px; padding: 10px; background: white; border-radius: 5px;">
+                        <div style="font-weight: bold; margin-bottom: 5px;">問題${this.userAnswers.indexOf(answer) + 1}: ${answer.question.question}</div>
+                        <div style="color: #28a745;">✓ 正解: ${answer.question.correct_answer}</div>
+                    </div>
+                `;
+            });
+            
+            resultHtml += `</div></div>`;
+        }
+
+        // 間違えた問題
+        resultHtml += `
+            <div>
+                <h3 style="color: #dc3545;">📚 復習が必要な問題 (${wrongAnswers.length}問)</h3>
+                <div style="background: #f8d7da; padding: 15px; border-radius: 8px;">
+        `;
+
+        wrongAnswers.forEach((answer, index) => {
             // 関連動画リンクの表示判定
             const videoLinkHtml = (answer.question.url && answer.question.url !== 'None' && answer.question.url.trim() !== '') 
-                ? `<a href="${answer.question.url}" target="_blank" class="video-link">📹 関連動画で復習する</a>`
+                ? `<a href="${answer.question.url}" target="_blank" class="video-link" style="display: inline-block; margin-top: 10px; padding: 8px 15px; background: #b8860b; color: white; text-decoration: none; border-radius: 5px;">📹 関連動画で復習する</a>`
                 : '';
             
-            questionElement.innerHTML = `
-                <div class="wrong-question-text">${answer.question.question}</div>
-                <div class="wrong-question-answer">
-                    <span style="color: #dc3545;">あなたの回答:</span> ${answer.selectedAnswer}<br>
-                    <span style="color: #28a745;">正解:</span> ${answer.question.correct_answer}
+            resultHtml += `
+                <div style="margin-bottom: 15px; padding: 15px; background: white; border-radius: 5px; border-left: 4px solid #dc3545;">
+                    <div style="font-weight: bold; margin-bottom: 10px;">問題${this.userAnswers.indexOf(answer) + 1}: ${answer.question.question}</div>
+                    <div style="margin-bottom: 5px;">
+                        <span style="color: #dc3545; font-weight: bold;">❌ あなたの回答:</span> ${answer.selectedAnswer}
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <span style="color: #28a745; font-weight: bold;">✓ 正解:</span> ${answer.question.correct_answer}
+                    </div>
+                    ${videoLinkHtml}
                 </div>
-                ${videoLinkHtml}
             `;
-            container.appendChild(questionElement);
         });
+
+        resultHtml += `</div></div>`;
+
+        Utils.setHTML('.wrong-questions', resultHtml);
     }
 
     /**
